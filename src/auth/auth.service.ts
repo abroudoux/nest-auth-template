@@ -1,5 +1,6 @@
 import { Injectable } from "@nestjs/common";
 import { hash, compare } from "bcrypt";
+import { JwtService } from "@nestjs/jwt";
 
 import { AuthBody } from "@/auth/auth.controller";
 import { PrismaService } from "@/prisma/prisma.service";
@@ -8,7 +9,7 @@ import { PrismaService } from "@/prisma/prisma.service";
 @Injectable()
 export class AuthService {
 
-    constructor (private readonly prisma : PrismaService) {};
+    constructor (private readonly prisma : PrismaService, private readonly jwtService : JwtService) {};
 
     private async hashPassword({ password } : { password : string }) {
         const hashedPassword = await hash(password, 10);
@@ -20,10 +21,16 @@ export class AuthService {
         return isPasswordValid;
     };
 
+    private async authenticateUser({ userId } : { userId : string }) {
+        const payload = { userId };
+        return { 
+            access_token : await this.jwtService.sign(payload), 
+        };
+    };
+
     async login({ authBody } : { authBody : AuthBody }) {
 
         const { email, password } = authBody;
-        const hashedPassword = await this.hashPassword({ password });
 
         const existingUser = await this.prisma.user.findUnique({
             where: {
@@ -41,7 +48,9 @@ export class AuthService {
             throw new Error('Password is not the same !')
         };
 
-        return existingUser.id;
+        // const hashedPassword = await this.hashPassword({ password });
+
+        return await this.authenticateUser({ userId : existingUser.id });
     };
 
 };
