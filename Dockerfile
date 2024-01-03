@@ -1,17 +1,18 @@
 
 FROM node:20
 
-WORKDIR /app
+WORKDIR /usr/src/app
 
 COPY package*.json ./
 
-RUN npm i
+RUN npm install
 
 COPY . .
+
+RUN npm run build
 
 ENV PORT=3001
 
 EXPOSE 3001
 
-CMD [ "npm", "run", "dev" ]
-
+CMD [ "node", "dist/main.js" ]
