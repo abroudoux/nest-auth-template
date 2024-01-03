@@ -3,6 +3,7 @@ import { hash, compare } from "bcrypt";
 import { JwtService } from "@nestjs/jwt";
 
 import { AuthBody } from "@/auth/auth.controller";
+import { UserPayload } from "@/auth/jwt.strategy";
 import { PrismaService } from "@/prisma/prisma.service";
 
 
@@ -21,8 +22,8 @@ export class AuthService {
         return isPasswordValid;
     };
 
-    private async authenticateUser({ userId } : { userId : string }) {
-        const payload = { userId };
+    private async authenticateUser({ userId } : UserPayload) {
+        const payload : UserPayload = { userId };
         return { 
             access_token : await this.jwtService.sign(payload), 
         };
