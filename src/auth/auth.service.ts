@@ -2,7 +2,7 @@ import { Injectable } from "@nestjs/common";
 import { hash, compare } from "bcrypt";
 import { JwtService } from "@nestjs/jwt";
 
-import { AuthBody } from "@/auth/auth.controller";
+import { AuthBody, CreateUser } from "@/auth/auth.controller";
 import { UserPayload } from "@/auth/jwt.strategy";
 import { PrismaService } from "@/prisma/prisma.service";
 
@@ -49,9 +49,28 @@ export class AuthService {
             throw new Error('Password is not the same !')
         };
 
-        // const hashedPassword = await this.hashPassword({ password });
-
         return await this.authenticateUser({ userId : existingUser.id });
+    };
+
+    async register({ registerBody } : { registerBody : CreateUser }) {
+
+        const { email, firstName, password } = registerBody;
+
+        const existingUser = await this.prisma.user.findUnique({
+            where: {
+                email,
+            },
+        });
+
+        if (existingUser) {
+            throw new Error('A user is already ewisting with this email !');
+        };
+
+        const hashedPassword = await this.hashPassword({ password });
+
+        const createdUser = await this.prisma.user.create({ data : { email, password : hashedPassword, firstName } })
+
+        return this.authenticateUser({ userId : createdUser.id });
     };
 
 };
