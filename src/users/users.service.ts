@@ -38,19 +38,19 @@ export class UsersService {
         return users;
     }
 
-    async updateUser ({ userId } : { userId : string }, updateUserDto : UpdateUserDto) {
-        const userUpdated = await this.prisma.user.findUnique({
-            where: { userId },
-        });
+    // async updateUser ({ userId } : { userId : string }, updateUserDto : UpdateUserDto) {
+    //     const userUpdated = await this.prisma.user.findUnique({
+    //         where: { userId },
+    //     });
 
-        if (!userUpdated) {
-            throw new Error('User didn\'t found!');
-        };
+    //     if (!userUpdated) {
+    //         throw new Error('User didn\'t found!');
+    //     };
 
-        return this.prisma.user.update({
-            where: { userId },
-            data: updateUserDto,
-        });
-    };
+    //     return this.prisma.user.update({
+    //         where: { userId },
+    //         data: updateUserDto,
+    //     });
+    // };
 
 };

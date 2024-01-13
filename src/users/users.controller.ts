@@ -19,9 +19,9 @@ export class UsersController {
         return this.usersService.getUser({ userId });
     };
 
-    @Patch('/:userId')
-    updateUser(@Param('userId') userId : string, @Body() updateUserDto : UpdateUserDto) {
-        return this.usersService.updateUser({ userId }, updateUserDto);
-    };
+    // @Patch('/:userId')
+    // updateUser(@Param('userId') userId : string, @Body() updateUserDto : UpdateUserDto) {
+    //     return this.usersService.updateUser({ userId }, updateUserDto);
+    // };
 
 };
