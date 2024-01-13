@@ -1,5 +1,5 @@
 {
-    "name": "nest-template",
+    "name": "nest-auth-template",
     "version": "0.0.1",
     "scripts": {
         "build": "nest build",
@@ -15,6 +15,9 @@
         "test:debug": "node --inspect-brk -r tsconfig-paths/register -r ts-node/register node_modules/.bin/jest --runInBand",
         "test:e2e": "jest --config ./test/jest-e2e.json"
     },
+    "prisma": {
+        "seed": "ts-node prisma/seed.ts"
+    },
     "dependencies": {
         "@nestjs/common": "^10.0.0",
         "@nestjs/config": "^3.1.1",
@@ -22,6 +25,7 @@
         "@nestjs/jwt": "^10.2.0",
         "@nestjs/passport": "^10.0.3",
         "@nestjs/platform-express": "^10.0.0",
+        "@nestjs/swagger": "^7.1.17",
         "@prisma/client": "^5.7.1",
         "@types/bcrypt": "^5.0.2",
         "@types/passport-jwt": "^4.0.0",
@@ -31,7 +35,8 @@
         "passport": "^0.7.0",
         "passport-jwt": "^4.0.1",
         "reflect-metadata": "^0.1.13",
-        "rxjs": "^7.8.1"
+        "rxjs": "^7.8.1",
+        "swagger-ui-express": "^5.0.0"
     },
     "devDependencies": {
         "@nestjs/cli": "^10.0.0",

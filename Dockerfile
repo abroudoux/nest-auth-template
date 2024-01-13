@@ -1,5 +1,5 @@
 
-FROM node:20
+FROM node:18
 
 WORKDIR /usr/src/app
 
@@ -9,10 +9,12 @@ RUN npm install
 
 COPY . .
 
+COPY .env ./
+
 RUN npm run build
 
-ENV PORT=3001
+RUN npx prisma generate
 
 EXPOSE 3001
 
-CMD [ "node", "dist/main.js" ]
+CMD ["npm", "run", "dev"]

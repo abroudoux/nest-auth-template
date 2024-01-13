@@ -1,1 +1,1 @@
-# nest-template
+# nest-auth-template
